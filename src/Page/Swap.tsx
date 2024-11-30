@@ -12,7 +12,7 @@ import {
   IconButton,
   Stack,
 } from '@mui/material';
-import { ArrowDownCircle, ChevronDown } from 'lucide-react';
+import { ArrowDownCircle } from 'lucide-react';
 import { SwapProps } from '../Utils/interface';
 import { TokenSelector } from '../Components/TokenSelector';
 
@@ -62,9 +62,6 @@ const Swap: React.FC = () => {
         <CardContent>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
             <Typography variant="h5">Swap</Typography>
-            {/* <IconButton sx={{ color: '#00BCD4' }}>
-              <Settings size={20} />
-            </IconButton> */}
           </Box>
 
           {/* From Token */}

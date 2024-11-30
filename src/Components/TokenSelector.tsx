@@ -164,7 +164,7 @@ const mockTokens: Record<number, Token[]> = {
 };
 
 const TokenSelector = ({ token, setToken }: TS) => {
-  console.log(token);
+    
   const [dialog, setDialog] = useState<boolean>(false);
   const [selectedChain, setSelectedChain] = useState<Chain>(mockChains[0]);
   // const [selected]
