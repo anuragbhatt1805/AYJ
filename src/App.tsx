@@ -1,9 +1,9 @@
 import { ThemeProvider, CssBaseline, Box } from "@mui/material";
 import theme from "./theme";
-import Header from "./Components/Header";
+import { Header } from "./Components/Header";
 import Dashboard from "./Page/Dashboard";
 import AiBot from "./Page/AiBot";
-import { homeTab } from "./Stores/baseStore";
+import { homeTab } from "./Utils/baseStore";
 import { useSignals } from "@preact/signals-react/runtime";
 import Swap from "./Page/Swap";
 import Stake from "./Page/Stake";

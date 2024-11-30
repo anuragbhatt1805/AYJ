@@ -17,4 +17,4 @@ const ConnectButton: React.FC<ConnectButtonProps> = ({ sx = {}, variant }) => {
   );
 };
 
-export default ConnectButton;
+export {ConnectButton};

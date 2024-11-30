@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Paper, Typography } from '@mui/material';
 import { Activity } from 'lucide-react';
-import ConnectButton from '../Components/ConnectButton';
+import { ConnectButton } from '../Components/ConnectButton';
 
 const Dashboard: React.FC = () => {
   return (

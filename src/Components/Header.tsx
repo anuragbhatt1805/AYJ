@@ -8,8 +8,8 @@ import {
   LayoutDashboard,
 } from "lucide-react";
 import { useSignals } from "@preact/signals-react/runtime";
-import { homeTab } from "../Stores/baseStore";
-import ConnectButton from "./ConnectButton";
+import { homeTab } from "../Utils/baseStore";
+import { ConnectButton } from "./ConnectButton";
 
 const menuItems: {
   name: string;
@@ -99,4 +99,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+export { Header };
