@@ -12,9 +12,10 @@ import {
   IconButton,
   Stack,
 } from '@mui/material';
-import { ArrowDownCircle } from 'lucide-react';
+import { ArrowDownCircle, ArrowUpDown } from 'lucide-react';
 import { SwapProps } from '../Utils/interface';
 import { TokenSelector } from '../Components/TokenSelector';
+// import { ConnectButton } from '../Components/ConnectButton';
 
 const Swap: React.FC = () => {
   useSignals();
@@ -60,8 +61,9 @@ const Swap: React.FC = () => {
         }}
       >
         <CardContent>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-            <Typography variant="h5">Swap</Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'start', alignItems: 'center', mb: 3 }} gap={2}>
+            <ArrowUpDown size={30} />
+            <Typography variant="h4">Swap</Typography>
           </Box>
 
           {/* From Token */}
@@ -176,15 +178,22 @@ const Swap: React.FC = () => {
 
           {/* Connect Wallet Button */}
           <Button
-            fullWidth
             variant="contained"
             sx={{
               py: 1.5,
-              fontSize: '16px',
+              fontSize: '20px',
+              width: '100%',
             }}
           >
-            Connect Wallet
+            Swap
           </Button>
+          {/* <ConnectButton
+            variant='contained'
+            sx={{
+              py: 1.5,
+              fontSize: '16px',
+              width: '100%',
+            }}/> */}
         </CardContent>
       </Card>
     </Stack>

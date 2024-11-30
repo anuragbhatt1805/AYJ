@@ -1,39 +1,108 @@
-import React from 'react';
-import { Box, Paper } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Button, Card, CardContent, Stack, TextField, Typography } from '@mui/material';
+import { Bot, Send } from 'lucide-react';
+// import { ConnectButton } from '../Components/ConnectButton';
 
 const AiBot: React.FC = () => {
+  const [userQuery, setUserQuery] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle the submission of the query here
+    console.log('Submitted query:', userQuery);
+    // Reset the input field
+    setUserQuery('');
+  };
+
   return (
-    <Box
+    <Stack
       sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '88vh',
-        // padding: 2,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "88vh",
+        backgroundColor: "#121212",
       }}
     >
-      <Paper
-        elevation={3}
+      <Card
         sx={{
-          width: '60%', // Iframe width at 60% of the container
-          height: '100%', // Full viewport height
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          overflow: 'hidden',
-          borderRadius: '10px', // Smooth corners for the iframe container
+          maxWidth: "50%",
+          width: "100%",
+          backgroundColor: "rgba(18, 18, 18, 0.9)",
+          backdropFilter: "blur(10px)",
+          color: "white",
+          borderRadius: "24px",
+          border: "1px solid rgba(0, 188, 212, 0.1)",
         }}
       >
-        <iframe
-          src="http://106.51.141.125:808"
-          width="100%"
-          height="100%"
-          title="AI Bot Interface"
-          style={{ border: 'none', borderRadius: '8px', padding: '5px'}}
-        />
-      </Paper>
-    </Box>
+        <CardContent>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "start",
+              alignItems: "center",
+              mb: 4,
+            }}
+            gap={2}
+          >
+            <Bot size={30} />
+            <Typography variant="h4">AI Bot</Typography>
+          </Box>
+
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+            <TextField
+              fullWidth
+              variant="outlined"
+              placeholder="Type your message here..."
+              value={userQuery}
+              onChange={(e) => setUserQuery(e.target.value)}
+              sx={{
+                mb: 4,
+                fontSize: "20px",
+                '& .MuiOutlinedInput-root': {
+                  color: 'white',
+                  '& fieldset': {
+                    borderColor: 'rgba(0, 188, 212, 0.5)',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'rgba(0, 188, 212, 0.7)',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'rgba(0, 188, 212, 1)',
+                  },
+                },
+                '& .MuiInputLabel-root': {
+                  color: 'rgba(255, 255, 255, 0.7)',
+                },
+              }}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              endIcon={<Send size={18} />}
+              sx={{
+                width: '100%',
+                backgroundColor: '#009998',
+                color: 'white',
+                '&:hover': {
+                  backgroundColor: '#007f7b',
+                },
+                py:0.5, fontSize: "16px"
+              }}
+            >
+              Execute
+            </Button>
+            {/* <ConnectButton
+            variant='contained'
+            sx={{
+              py: 1.5,
+              fontSize: '16px',
+              width: '100%',
+            }}/> */}
+          </Box>
+        </CardContent>
+      </Card>
+    </Stack>
   );
 };
 
