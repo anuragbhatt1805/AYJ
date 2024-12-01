@@ -110,6 +110,7 @@ const Stake = () => {
     if (hashValue && hashValue.length > 0) {
       console.log("Hash Value", hashValue);
     }
+    alert("Your request for Claim has been submitted successfully");
   }
 
   return (
