@@ -16,6 +16,7 @@ import { ConnectButton } from "../Components/ConnectButton";
 import { useSignals } from "@preact/signals-react/runtime";
 import { accountToken } from "../Utils/baseStore";
 import { useForm, Controller } from "react-hook-form";
+import Query from "../APIs/Stake";
 
 const Stake = () => {
   useSignals();
@@ -65,8 +66,9 @@ const Stake = () => {
   };
 
   const onSubmit = (data: any) => {
-    console.log("Form submitted", data);
-    console.log("Slider Value", sliderValues);
+    if (accountToken.value && data.termsAccepted) {
+      Query(data.decimalValue, sliderValues, accountToken.value);
+    }
   };
 
   return (

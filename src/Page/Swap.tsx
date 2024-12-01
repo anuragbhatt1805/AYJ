@@ -17,6 +17,7 @@ import { SwapProps } from "../Utils/interface";
 import { TokenSelector } from "../Components/TokenSelector";
 import { ConnectButton } from "../Components/ConnectButton";
 import { accountToken } from "../Utils/baseStore";
+import Query from "../APIs/Swap";
 
 const Swap: React.FC = () => {
   useSignals();
@@ -45,11 +46,9 @@ const Swap: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle the submission of the query here
-    console.log('From Section:', fromSwap);
-    console.log('To Section:', toSwap);
-    console.log('Recipient Address:', recipentAddress);
-    console.log('Gas TopUp:', gasTopUp);
+    if (accountToken.value) {
+      Query(fromSwap, toSwap, recipentAddress, gasTopUp, accountToken.value);
+    }
   };
 
   return (

@@ -4,6 +4,7 @@ import { Bot, Send } from 'lucide-react';
 import { useSignals } from '@preact/signals-react/runtime';
 import { accountToken } from '../Utils/baseStore';
 import { ConnectButton } from '../Components/ConnectButton';
+import Query from '../APIs/AiBot';
 
 const AiBot: React.FC = () => {
   useSignals();
@@ -13,7 +14,8 @@ const AiBot: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle the submission of the query here
-    console.log('Submitted query:', userQuery);
+    if (!accountToken.value) return;
+    Query(userQuery, accountToken.value);
     // Reset the input field
     setUserQuery('');
   };
