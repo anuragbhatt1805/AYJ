@@ -23,7 +23,6 @@ const AiBot: React.FC = () => {
   const [userQuery, setUserQuery] = useState("");
 
   const [, setQuoteData] = useState();
-  const [account] = useState("Connect Wallet");
 
   const erc20_abi = [
     {
@@ -690,6 +689,7 @@ const AiBot: React.FC = () => {
     try {
       const res = await axios.get(quoteUrl, { params });
       setQuoteData(res.data);
+      console.log("========================",res.data);
       return res.data;
     } catch (e) {
       console.error(`Fetching quote data from pathfinder: ${e}`);
@@ -711,9 +711,9 @@ const AiBot: React.FC = () => {
     const allowance = await erc20.approve(
       approvalAddress, amount
     );
-    if (allowance.lt(amount)) {
+    console.log(allowance);
       const approveTx = await erc20.approve(approvalAddress, amount, {
-        gasPrice: await wallet.provider.getGasPrice(),
+        gasPrice: allowance.gasPrice,
       });
       console.log(approveTx.hash);
       try {
@@ -724,11 +724,6 @@ const AiBot: React.FC = () => {
         console.log(`Transaction failed with error: ${error}`);
         return null;
       }
-    } else {
-      console.log("enough allowance");
-      alert("enough allowance");
-      return null;
-    }
   };
 
   const getTransaction = async (_params: any, quoteData: any) => {
@@ -741,8 +736,9 @@ const AiBot: React.FC = () => {
       const res = await axios.post(txDataUrl, {
         ...quoteData,
         slippageTolerance: 0.5,
-        senderAddress: account,
-        receiverAddress: account,
+        senderAddress: accountToken.value,
+        receiverAddress: accountToken.value,
+        partnerId: 263,
       });
       console.log(res.data);
       return res.data;
@@ -767,8 +763,7 @@ const AiBot: React.FC = () => {
 
   const extractVariables = async () => {
     const openai = new OpenAI({
-      apiKey:
-        "",
+      apiKey:"",
       dangerouslyAllowBrowser: true,
     });
 
@@ -916,7 +911,7 @@ const AiBot: React.FC = () => {
                       amount: parseFloat(amount) * Math.pow(10, 18),
                       fromTokenChainId: resObj.sourceChain,
                       toTokenChainId: resObj.desChain,
-                      partnerId: "0",
+                      partnerId: 263,
                     };
 
                     console.log(params);
