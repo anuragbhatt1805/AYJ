@@ -15,13 +15,24 @@ import { useEffect, useState } from "react";
 import { ConnectButton } from "../Components/ConnectButton";
 import { useSignals } from "@preact/signals-react/runtime";
 import { accountToken } from "../Utils/baseStore";
+import { useForm, Controller } from "react-hook-form";
 
 const Stake = () => {
   useSignals();
 
-  const [decimalValue, setDecimalValue] = useState<number>(0);
   const [sliderValues, setSliderValues] = useState<[number, number]>([50, 50]);
   const [termsAccepted, setTermsAccepted] = useState<boolean>(false);
+
+  const {
+    control,
+    handleSubmit,
+    setValue,
+  } = useForm({
+    defaultValues: {
+      decimalValue: 0,
+      termsAccepted: false,
+    },
+  });
 
   useEffect(() => {
     // Ensure sliders always sum to 100
@@ -30,10 +41,6 @@ const Stake = () => {
       setSliderValues([sliderValues[0], 100 - sliderValues[0]]);
     }
   }, [sliderValues]);
-
-  const handleDecimalChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDecimalValue(Number(event.target.value));
-  };
 
   const handleSliderChange =
     (index: number) => (_: Event, newValue: number | number[]) => {
@@ -54,16 +61,12 @@ const Stake = () => {
 
   const handleTermsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTermsAccepted(event.target.checked);
+    setValue("termsAccepted", event.target.checked);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    // Add your form submission logic here
-    console.log("Form submitted", {
-      decimalValue,
-      sliderValues,
-      termsAccepted,
-    });
+  const onSubmit = (data: any) => {
+    console.log("Form submitted", data);
+    console.log("Slider Value", sliderValues);
   };
 
   return (
@@ -101,22 +104,27 @@ const Stake = () => {
             <Typography variant="h4">Stake</Typography>
           </Box>
 
-          <Box component="form" onSubmit={handleSubmit}>
-            <TextField
-              label="Stake Value"
-              type="number"
-              value={decimalValue}
-              disabled={!accountToken.value}
-              helperText={
-                !accountToken.value ? "Connect your wallet to stake" : ""
-              }
-              onChange={handleDecimalChange}
-              variant="outlined"
-              placeholder="Enter Stack Value"
-              sx={{ mb: 2, width: "100%" }}
-              InputProps={{
-                sx: { color: "text.primary", borderColor: "primary.main" },
-              }}
+          <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+            <Controller
+              name="decimalValue"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Stake Value"
+                  type="number"
+                  disabled={!accountToken.value}
+                  helperText={
+                    !accountToken.value ? "Connect your wallet to stake" : ""
+                  }
+                  variant="outlined"
+                  placeholder="Enter Stake Value"
+                  sx={{ mb: 2, width: "100%" }}
+                  InputProps={{
+                    sx: { color: "text.primary", borderColor: "primary.main" },
+                  }}
+                />
+              )}
             />
             <Box
               sx={{
@@ -173,7 +181,7 @@ const Stake = () => {
               }
               label={
                 <Typography variant="body2" sx={{ color: "text.primary" }}>
-                  I accept the risk, terms and conditions
+                  I accept the risk, terms, and conditions
                 </Typography>
               }
               sx={{ mt: 2, alignSelf: "flex-start" }}

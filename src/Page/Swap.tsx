@@ -34,10 +34,22 @@ const Swap: React.FC = () => {
     price: 0.3,
   });
 
+  const [recipentAddress, setRecipientAddress] = useState<string>("");
+  const [gasTopUp, setGasTopUp] = useState<boolean>(false);
+
   // Function to swap the values between the two fields
   const handleSwap = () => {
     setFromSwap(toSwap);
     setToSwap(fromSwap);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle the submission of the query here
+    console.log('From Section:', fromSwap);
+    console.log('To Section:', toSwap);
+    console.log('Recipient Address:', recipentAddress);
+    console.log('Gas TopUp:', gasTopUp);
   };
 
   return (
@@ -187,6 +199,8 @@ const Swap: React.FC = () => {
           <TextField
             fullWidth
             variant="outlined"
+            value={recipentAddress}
+            onChange={(e) => setRecipientAddress(e.target.value)}
             placeholder="Enter address"
             disabled = {!accountToken.value}
             sx={{
@@ -224,7 +238,9 @@ const Swap: React.FC = () => {
                 Get Native Tokens for transactions
               </Typography>
             </Box>
-            <Switch disabled = {!accountToken.value}/>
+            <Switch disabled = {!accountToken.value}
+            checked={gasTopUp}
+            onClick={() => setGasTopUp((prev) => !prev)}/>
           </Box>
 
           {/* Connect Wallet Button */}
@@ -236,6 +252,7 @@ const Swap: React.FC = () => {
                 fontSize: "20px",
                 width: "100%",
               }}
+              onClick={handleSubmit}
             >
               Swap
             </Button>

@@ -88,6 +88,7 @@ const AiBot: React.FC = () => {
               type="submit"
               variant="contained"
               disabled = {!accountToken.value}
+              onClick={handleSubmit}
               endIcon={<Send size={18} />}
               sx={{
                 width: '100%',
