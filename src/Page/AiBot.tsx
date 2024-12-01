@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { Box, Button, Card, CardContent, Stack, TextField, Typography } from '@mui/material';
 import { Bot, Send } from 'lucide-react';
-// import { ConnectButton } from '../Components/ConnectButton';
+import { useSignals } from '@preact/signals-react/runtime';
+import { accountToken } from '../Utils/baseStore';
+import { ConnectButton } from '../Components/ConnectButton';
 
 const AiBot: React.FC = () => {
+  useSignals();
+
   const [userQuery, setUserQuery] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -53,6 +57,8 @@ const AiBot: React.FC = () => {
             <TextField
               fullWidth
               variant="outlined"
+              disabled = {!accountToken.value}
+              helperText = {!accountToken.value ? 'Connect your wallet to chat' : ''}
               placeholder="Type your message here..."
               value={userQuery}
               onChange={(e) => setUserQuery(e.target.value)}
@@ -76,9 +82,12 @@ const AiBot: React.FC = () => {
                 },
               }}
             />
-            <Button
+            {
+              accountToken.value ? (
+                <Button
               type="submit"
               variant="contained"
+              disabled = {!accountToken.value}
               endIcon={<Send size={18} />}
               sx={{
                 width: '100%',
@@ -92,13 +101,18 @@ const AiBot: React.FC = () => {
             >
               Execute
             </Button>
-            {/* <ConnectButton
+              ) : (
+                <ConnectButton
             variant='contained'
             sx={{
               py: 1.5,
               fontSize: '16px',
               width: '100%',
-            }}/> */}
+            }}/>
+              )
+            }
+
+
           </Box>
         </CardContent>
       </Card>

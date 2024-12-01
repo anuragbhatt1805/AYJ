@@ -6,6 +6,7 @@ export interface SwapProps {
 
 export interface TokenSelector {
   token: null | string;
+  disabled: boolean;
   setToken: (token: string) => void;
 }
 

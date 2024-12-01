@@ -163,8 +163,8 @@ const mockTokens: Record<number, Token[]> = {
   ],
 };
 
-const TokenSelector = ({ token, setToken }: TS) => {
-    
+const TokenSelector = ({ token, disabled, setToken }: TS) => {
+
   const [dialog, setDialog] = useState<boolean>(false);
   const [selectedChain, setSelectedChain] = useState<Chain>(mockChains[0]);
   // const [selected]
@@ -190,6 +190,7 @@ const TokenSelector = ({ token, setToken }: TS) => {
       <Button
         variant="contained"
         onClick={handleDialog}
+        disabled={disabled}
         sx={{
           backgroundColor: "rgba(0, 188, 212, 0.1)",
           "&:hover": {

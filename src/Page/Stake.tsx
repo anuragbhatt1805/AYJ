@@ -12,9 +12,13 @@ import {
 import { Box } from "@mui/material";
 import { HandCoins } from "lucide-react";
 import { useEffect, useState } from "react";
-// import { ConnectButton } from "../Components/ConnectButton";
+import { ConnectButton } from "../Components/ConnectButton";
+import { useSignals } from "@preact/signals-react/runtime";
+import { accountToken } from "../Utils/baseStore";
 
 const Stake = () => {
+  useSignals();
+
   const [decimalValue, setDecimalValue] = useState<number>(0);
   const [sliderValues, setSliderValues] = useState<[number, number]>([50, 50]);
   const [termsAccepted, setTermsAccepted] = useState<boolean>(false);
@@ -97,13 +101,15 @@ const Stake = () => {
             <Typography variant="h4">Stake</Typography>
           </Box>
 
-          <Box
-            component="form"
-            onSubmit={handleSubmit}>
+          <Box component="form" onSubmit={handleSubmit}>
             <TextField
               label="Stake Value"
               type="number"
               value={decimalValue}
+              disabled={!accountToken.value}
+              helperText={
+                !accountToken.value ? "Connect your wallet to stake" : ""
+              }
               onChange={handleDecimalChange}
               variant="outlined"
               placeholder="Enter Stack Value"
@@ -133,6 +139,7 @@ const Stake = () => {
                     orientation="vertical"
                     value={sliderValues[index]}
                     onChange={handleSliderChange(index)}
+                    disabled={!accountToken.value}
                     aria-labelledby={`vertical-slider-${index}`}
                     valueLabelDisplay="auto"
                     sx={{ height: 200, color: "primary.main" }}
@@ -141,9 +148,11 @@ const Stake = () => {
                     type="number"
                     value={sliderValues[index]}
                     onChange={handleInputChange(index)}
+                    disabled={!accountToken.value}
                     variant="outlined"
                     sx={{ mt: 2, width: "80px" }}
                     InputProps={{
+                      endAdornment: <Typography>%</Typography>,
                       sx: {
                         color: "text.primary",
                         borderColor: "primary.main",
@@ -159,6 +168,7 @@ const Stake = () => {
                   checked={termsAccepted}
                   onChange={handleTermsChange}
                   sx={{ color: "primary.main" }}
+                  disabled={!accountToken.value}
                 />
               }
               label={
@@ -168,22 +178,26 @@ const Stake = () => {
               }
               sx={{ mt: 2, alignSelf: "flex-start" }}
             />
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth
-              sx={{ mt: 2, py:1.5, fontSize: "20px" }}
-              disabled={!termsAccepted}
-            >
-              Submit
-            </Button>
-            {/* <ConnectButton
-            variant='contained'
-            sx={{
-              py: 1.5,
-              fontSize: '16px',
-              width: '100%',
-            }}/> */}
+            {accountToken.value ? (
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                sx={{ mt: 2, py: 0.7, fontSize: "20px" }}
+                disabled={!termsAccepted}
+              >
+                Submit
+              </Button>
+            ) : (
+              <ConnectButton
+                variant="contained"
+                sx={{
+                  py: 1.5,
+                  fontSize: "16px",
+                  width: "100%",
+                }}
+              />
+            )}
           </Box>
         </CardContent>
       </Card>
