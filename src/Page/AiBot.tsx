@@ -703,10 +703,13 @@ const AiBot: React.FC = () => {
     amount: any
   ) => {
     const erc20 = new ethers.Contract(tokenAddress, erc20_abi, wallet);
-    console.log(approvalAddress);
-    const allowance = await erc20.allowance(
-      await wallet.getAddress(),
-      approvalAddress
+    console.log(await wallet.getAddress(),
+    approvalAddress);
+
+    // const wa = await wallet.getAddress()
+
+    const allowance = await erc20.approve(
+      approvalAddress, amount
     );
     if (allowance.lt(amount)) {
       const approveTx = await erc20.approve(approvalAddress, amount, {
@@ -760,7 +763,7 @@ const AiBot: React.FC = () => {
   const extractVariables = async () => {
     const openai = new OpenAI({
       apiKey:
-        "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",
+        "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",
       dangerouslyAllowBrowser: true,
     });
 
@@ -774,7 +777,7 @@ const AiBot: React.FC = () => {
     {
       "sourceToken": "x",
       "sourceChain": "a",
-      "desToken":"y",
+      "desToken": "y",
       "desChain": "b",
       "amount": "z"
     }`,
@@ -933,11 +936,13 @@ const AiBot: React.FC = () => {
                         );
                         const signer = await provider.getSigner();
 
+                        console.log("token",resObj.sourceToken);
+
                         await checkAndSetAllowance(
                           signer,
                           resObj.sourceToken,
                           quote.allowanceTo,
-                          ethers.MaxUint256
+                          parseFloat(amount),
                         );
 
                         //Executing the Transaction
