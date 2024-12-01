@@ -77,7 +77,7 @@ const Stake = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        // height: "94vh",
+        height: "90vh",
         backgroundColor: "#121212",
       }}
     >

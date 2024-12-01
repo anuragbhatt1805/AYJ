@@ -715,15 +715,19 @@ const AiBot: React.FC = () => {
       const approveTx = await erc20.approve(approvalAddress, amount, {
         gasPrice: await wallet.provider.getGasPrice(),
       });
+      console.log(approveTx.hash);
       try {
         await approveTx.wait();
         console.log(`Transaction mined succesfully: ${approveTx.hash}`);
+        return approveTx.hash;
       } catch (error) {
         console.log(`Transaction failed with error: ${error}`);
+        return null;
       }
     } else {
       console.log("enough allowance");
       alert("enough allowance");
+      return null;
     }
   };
 
@@ -740,6 +744,7 @@ const AiBot: React.FC = () => {
         senderAddress: account,
         receiverAddress: account,
       });
+      console.log(res.data);
       return res.data;
     } catch (e) {
       console.error(`Fetching tx data from pathfinder: ${e}`);
@@ -763,7 +768,7 @@ const AiBot: React.FC = () => {
   const extractVariables = async () => {
     const openai = new OpenAI({
       apiKey:
-        "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",
+        "",
       dangerouslyAllowBrowser: true,
     });
 
@@ -938,12 +943,14 @@ const AiBot: React.FC = () => {
 
                         console.log("token",resObj.sourceToken);
 
-                        await checkAndSetAllowance(
+                        const hash = await checkAndSetAllowance(
                           signer,
                           resObj.sourceToken,
                           quote.allowanceTo,
                           parseFloat(amount),
                         );
+
+                        console.log(hash);
 
                         //Executing the Transaction
                         const txResponse = await getTransaction(
@@ -956,6 +963,8 @@ const AiBot: React.FC = () => {
                           },
                           quote
                         );
+
+                        console.log(txResponse);
 
                         const tx = await signer.sendTransaction(txResponse.txn);
                         try {
