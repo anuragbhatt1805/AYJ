@@ -24,17 +24,16 @@ const Swap: React.FC = () => {
 
   // State to handle values in the input fields
   const [fromSwap, setFromSwap] = useState<SwapProps>({
-    token: "ETH",
-    value: 4.0,
-    price: 1.0,
+    token: null,
+    price: 0.0,
   });
 
   const [toSwap, setToSwap] = useState<SwapProps>({
-    token: "WLD",
-    value: 2.0,
-    price: 0.3,
+    token: null,
+    price: 0.0,
   });
 
+  const [value, setValue] = useState<number>(0.0);
   const [recipentAddress, setRecipientAddress] = useState<string>("");
   const [gasTopUp, setGasTopUp] = useState<boolean>(false);
 
@@ -47,7 +46,7 @@ const Swap: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (accountToken.value) {
-      Query(fromSwap, toSwap, recipentAddress, gasTopUp, accountToken.value);
+      Query(fromSwap, toSwap, recipentAddress, value, accountToken.value);
     }
   };
 
@@ -57,7 +56,7 @@ const Swap: React.FC = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh",
+        // height: "100vh",
         backgroundColor: "#121212",
       }}
     >
@@ -102,12 +101,9 @@ const Swap: React.FC = () => {
               <TextField
                 variant="standard"
                 placeholder="0.00"
-                value={fromSwap.value}
+                value={value}
                 onChange={(e) => {
-                  setFromSwap({
-                    ...fromSwap,
-                    value: parseFloat(e.target.value),
-                  });
+                  setValue(parseFloat(e.target.value));
                 }}
                 type="number"
                 InputProps={{
@@ -161,12 +157,9 @@ const Swap: React.FC = () => {
               <TextField
                 variant="standard"
                 placeholder="0.00"
-                value={toSwap.value}
+                value={value}
                 onChange={(e) => {
-                  setToSwap({
-                    ...toSwap,
-                    value: parseFloat(e.target.value),
-                  });
+                  setValue(parseFloat(e.target.value));
                 }}
                 type="number"
                 InputProps={{
@@ -201,7 +194,7 @@ const Swap: React.FC = () => {
             value={recipentAddress}
             onChange={(e) => setRecipientAddress(e.target.value)}
             placeholder="Enter address"
-            disabled = {!accountToken.value}
+            disabled = {!accountToken.value || true}
             sx={{
               mb: 2,
               "& .MuiOutlinedInput-root": {
@@ -237,7 +230,7 @@ const Swap: React.FC = () => {
                 Get Native Tokens for transactions
               </Typography>
             </Box>
-            <Switch disabled = {!accountToken.value}
+            <Switch disabled = {!accountToken.value || true}
             checked={gasTopUp}
             onClick={() => setGasTopUp((prev) => !prev)}/>
           </Box>

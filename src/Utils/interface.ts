@@ -1,26 +1,24 @@
 export interface SwapProps {
-  token: null | string;
-  value: number;
+  token: null | Token;
   price: number;
 }
 
 export interface TokenSelector {
-  token: null | string;
+  token: null | Token;
   disabled: boolean;
-  setToken: (token: string) => void;
+  setToken: (token: Token) => void;
 }
 
 export interface Token {
-  id: string;
-  name: string;
+  address: string;
   symbol: string;
   icon: string;
-  balance?: string;
-  chainId?: number;
+  chainId?: string;
+  decimals?: number;
 }
 
 export interface Chain {
-  id: number;
+  id: string;
   name: string;
   icon: string;
 }
