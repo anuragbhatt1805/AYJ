@@ -17,7 +17,7 @@ import { ConnectButton } from "../Components/ConnectButton";
 import { useSignals } from "@preact/signals-react/runtime";
 import { accountToken } from "../Utils/baseStore";
 import { useForm, Controller } from "react-hook-form";
-import { Stake as Squery, Cover as Cquery } from "../APIs/Stake";
+import { Stake as Squery, Cover as Cquery, Claim } from "../APIs/Stake";
 
 const Stake = () => {
   useSignals();
@@ -108,7 +108,7 @@ const Stake = () => {
 
   const onClaim = () => {
     if (hashValue && hashValue.length > 0) {
-      console.log("Hash Value", hashValue);
+      Claim(hashValue);
     }
     alert("Your request for Claim has been submitted successfully");
   }
@@ -476,15 +476,15 @@ const Stake = () => {
                 }}
               />
               <Button
-                    type="submit"
-                    variant="contained"
-                    onClick={onClaim}
-                    fullWidth
-                    sx={{ mt: 2, py: 0.7, fontSize: "20px" }}
-                    // disabled={submitCover}
-                  >
-                    Claim Now
-                  </Button>
+                type="button"
+                variant="contained"
+                onClick={onClaim}
+                fullWidth
+                sx={{ mt: 2, py: 0.7, fontSize: "20px" }}
+                // disabled={submitCover}
+              >
+                Claim Now
+              </Button>
                 </>
               )
             }
